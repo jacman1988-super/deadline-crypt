@@ -1,0 +1,48 @@
+{
+  "name": "deadline-crypt",
+  "description": "Project-scoped Deadline Crypt builder, configured by Codex for genuine Kiro implementation.",
+  "prompt": "You are implementing a new contest project. Work only inside the current Deadline Crypt project directory. Read build-request.txt and implement the requested application. Never read parent folders, unrelated projects, private account files, credentials, tokens or authentication state. Only fs_read and fs_write are available. No network, shell, MCP, subagents, publishing, account operations or purchases. Use paths relative to this project for file tools. The published profile uses a portable project-file allowlist; the original local build used an absolute project-only allowlist. Preserve the true authorship: the user provided the monitoring/earning need; Codex wrote this request/config; Kiro implements the actual files now. Do not invent previous Kiro work or test results. Write compact correct source and tests. Codex will run the Node tests because shell tools are intentionally unavailable. Stop and report any permission or free-credit blocker.",
+  "tools": [
+    "fs_read",
+    "fs_write"
+  ],
+  "allowedTools": [],
+  "toolsSettings": {
+    "fs_read": {
+      "allowedPaths": [
+        "index.html",
+        "style.css",
+        "app.js",
+        "domain.js",
+        "package.json",
+        "README.md",
+        "LICENSE",
+        ".gitignore",
+        "build-request.txt",
+        "review-feedback.txt",
+        ".kiro/**",
+        "test/**",
+        "docs/**"
+      ]
+    },
+    "fs_write": {
+      "allowedPaths": [
+        "index.html",
+        "style.css",
+        "app.js",
+        "domain.js",
+        "package.json",
+        "README.md",
+        "LICENSE",
+        ".gitignore",
+        "build-request.txt",
+        "review-feedback.txt",
+        ".kiro/**",
+        "test/**",
+        "docs/**"
+      ]
+    }
+  },
+  "resources": [],
+  "mcpServers": {}
+}

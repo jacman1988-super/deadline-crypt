@@ -1,0 +1,13 @@
+{
+  "name": "deadline-crypt",
+  "version": "1.0.0",
+  "description": "Kiroween 2026 — browser-only competition opportunity planner",
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/domain.test.mjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}

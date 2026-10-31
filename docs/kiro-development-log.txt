@@ -1,0 +1,101 @@
+Deadline Crypt - real Kiro development evidence
+31 October 2026
+
+The entrant explicitly requested a cash-prize contest planner with reminders, missing materials, cash separate from credits and registration separate from submitted work.
+Codex prepared the brief and tool profile; native official Kiro CLI 2.37.0 on the Free plan performed two real implementation runs. No paid API key, shell or MCP tool was provided to Kiro. It used fs_read/fs_write only.
+Run 1 created the initial app, domain logic, CSS, specs, steering and tests. Codex executed the tests and real browser checks. Run 2 corrected the observed failures from review-feedback.txt.
+Codex then materially refined presentation, import/schema edge cases, demo fixtures, backup history merging, storage recovery, accessible focus and confirmation controls. The final project is a collaboration, not a claim that Kiro alone authored the final files.
+The repository agent profile is portable. Its original local counterpart had absolute paths restricted to the project directory; the private original is kept outside this repository. These paths are autoapproval rules, not a claimed OS sandbox.
+The following excerpts are actual tool-event lines copied from the two CLI logs. They describe work performed then, not a claim all initial output was bug-free. Full logs remain in local project evidence.
+
+--- kiro-build-01.log ---
+[tool] Reading build-request.txt:1
+[tool] status: Completed
+[tool] Reading listing deadline-crypt
+[tool] status: Completed
+[tool] Reading deadline-crypt.json:1
+[tool] status: Completed
+[tool] Creating project.md
+[tool] status: Completed
+[tool] Creating requirements.md
+[tool] status: Completed
+[tool] Creating design.md
+[tool] status: Completed
+[tool] Creating tasks.md
+[tool] status: Completed
+[tool] Creating domain.js
+[tool] status: Completed
+[tool] Creating domain.test.mjs
+[tool] status: Completed
+[tool] Creating package.json
+[tool] status: Completed
+[tool] Creating .gitignore
+[tool] status: Completed
+[tool] Creating LICENSE
+[tool] status: Completed
+[tool] Creating README.md
+[tool] status: Completed
+[tool] Creating style.css
+[tool] status: Completed
+[tool] Creating app.js
+[tool] status: Completed
+[tool] Creating index.html
+[tool] status: Completed
+[tool] Reading domain.js:65-84
+[tool] status: Completed
+[tool] Reading domain.js:101-120
+[tool] status: Completed
+[tool] Reading domain.js:135-149
+[tool] status: Completed
+[tool] Reading domain.test.mjs:101-106
+[tool] status: Completed
+[tool] Reading domain.test.mjs:109-118
+[tool] status: Completed
+[tool] Reading domain.test.mjs:118-127
+[tool] status: Completed
+[tool] Editing domain.js
+[tool] status: Completed
+[tool] Reading domain.js:236-250
+[tool] status: Completed
+[tool] Reading domain.js:296-315
+[tool] status: Completed
+[tool] Reading domain.test.mjs:153-172
+[tool] status: Completed
+[tool] Reading domain.test.mjs:137-148
+[tool] status: Completed
+[tool] Editing domain.test.mjs
+[tool] status: Completed
+[tool] Reading listing deadline-crypt
+[tool] status: Completed
+
+--- kiro-build-02.log ---
+[tool] Reading review-feedback.txt:1, listing deadline-crypt
+[tool] status: Completed
+[tool] Reading domain.js:1, domain.test.mjs:1
+[tool] status: Completed
+[tool] Reading app.js:1
+[tool] status: Completed
+[tool] Creating domain.js
+[tool] status: Completed
+[tool] Editing app.js
+[tool] status: Completed
+[tool] status: Failed
+[tool] Editing app.js
+[tool] status: Completed
+[tool] Reading app.js:1-25, app.js:216-255
+[tool] status: Completed
+[tool] Editing app.js
+[tool] status: Completed
+[tool] Reading app.js:256-290
+[tool] status: Completed
+[tool] Editing app.js
+[tool] status: Completed
+[tool] Creating domain.test.mjs
+[tool] status: Completed
+[tool] Creating README.md
+[tool] status: Completed
+[tool] Reading app.js:130-144, domain.js:164-188, domain.js:208-227, domain.js:326-345
+[tool] status: Completed
+[tool] Reading domain.js:27-56, domain.js:618-677
+[tool] status: Completed
+

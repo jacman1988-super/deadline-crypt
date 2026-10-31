@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Deadline Crypt — manual competition opportunity planner. Fictional demo data. Kiroween 2026." />
+  <title>Deadline Crypt 🕯️</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- =====================================================================
+       Header
+       ===================================================================== -->
+  <header class="app-header" role="banner">
+    <a href="#main-content" class="app-logo" aria-label="Deadline Crypt — home">
+      <!-- Candle SVG (hand-drawn style) -->
+      <svg class="candle-svg" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"
+           fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="12" width="8" height="13" rx="1" fill="#f0a500" opacity="0.9"/>
+        <rect x="11" y="14" width="6" height="11" rx="1" fill="#7a5300" opacity="0.4"/>
+        <!-- Wick -->
+        <line x1="14" y1="12" x2="14" y2="9" stroke="#5a3a00" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- Flame -->
+        <ellipse cx="14" cy="6.5" rx="2.5" ry="3.5" fill="#f0a500" opacity="0.95"/>
+        <ellipse cx="14" cy="7" rx="1.2" ry="2.2" fill="#fff5cc" opacity="0.8"/>
+        <!-- Glow -->
+        <ellipse cx="14" cy="7" rx="5" ry="5" fill="#f0a500" opacity="0.08"/>
+        <!-- Drips -->
+        <path d="M10 16 Q9 18 10 20" stroke="#f0a500" stroke-width="1" fill="none" opacity="0.5"/>
+        <path d="M18 15 Q19 17 18 19" stroke="#f0a500" stroke-width="1" fill="none" opacity="0.5"/>
+      </svg>
+      <h1 class="brand-title">Deadline Crypt</h1>
+    </a>
+
+    <div class="header-tools">
+      <span class="app-subtitle">Keep unfinished entries in sight.</span>
+      <button id="btn-demo" type="button" class="btn btn-secondary">Load examples</button>
+    </div>
+
+    <div id="storage-badge" class="storage-badge" role="status" hidden
+         title="Changes are stored in memory only — localStorage is unavailable or full.">
+      ⚠ Unsaved (memory only)
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       Main content
+       ===================================================================== -->
+  <main id="main-content" role="main">
+
+    <!-- Disclaimer -->
+    <div class="disclaimer" role="note" aria-label="Important notice">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>
+        <strong>Your manual opportunity desk.</strong>
+        Cash prizes and credits stay separate. Sample entries are fictional; you record each stage yourself.
+        Saved in this browser — export a backup. Organizer links and payouts need your own verification.
+      </span>
+    </div>
+    <p id="app-message" class="app-message" role="status" hidden></p>
+
+    <!-- Toolbar -->
+    <section aria-label="Search and filters" class="toolbar">
+      <div class="toolbar-search">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="search" id="search-input" placeholder="Search title or URL…"
+               aria-label="Search records" autocomplete="off" />
+      </div>
+
+      <div class="toolbar-filters" role="group" aria-label="Filter options">
+        <select id="filter-stage" aria-label="Filter by stage">
+          <option value="">All stages</option>
+          <option value="interested">Interested</option>
+          <option value="registered">Registered</option>
+          <option value="preparing">Preparing</option>
+          <option value="submitted">Submitted</option>
+          <option value="withdrawn">Withdrawn</option>
+        </select>
+
+        <label class="filter-label">
+          <input type="checkbox" id="filter-cash" />
+          Cash only
+        </label>
+
+        <select id="sort-by" aria-label="Sort by">
+          <option value="urgency">Sort: Urgency</option>
+          <option value="title">Sort: Title</option>
+          <option value="stage">Sort: Stage</option>
+        </select>
+      </div>
+
+      <div class="toolbar-actions" role="group" aria-label="Record actions">
+        <button id="btn-new" type="button" class="btn btn-primary" aria-label="Add new record">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add opportunity
+        </button>
+        <button id="btn-export" type="button" class="btn btn-secondary" aria-label="Export all records as JSON">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Export
+        </button>
+        <button id="btn-import" type="button" class="btn btn-secondary" aria-label="Import records from JSON file">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          Import
+        </button>
+        <input type="file" id="import-file-input" accept=".json,application/json"
+               class="sr-only" aria-label="Choose JSON file to import" tabindex="-1" />
+      </div>
+    </section>
+
+    <!-- Reminder queue -->
+    <section id="reminder-queue" aria-live="polite" aria-label="Deadline reminders"
+             role="region"></section>
+
+    <!-- Records grid -->
+    <section aria-label="Competition records">
+      <div id="records-grid" class="records-grid"></div>
+    </section>
+
+  </main>
+
+</div><!-- .app-shell -->
+
+<dialog id="notice-dialog" class="small-dialog" aria-labelledby="notice-title">
+  <h2 id="notice-title">Please check</h2>
+  <p id="notice-text"></p>
+  <div class="dialog-actions"><button id="notice-ok" type="button" class="btn btn-primary">OK</button></div>
+</dialog>
+<dialog id="confirm-dialog" class="small-dialog" aria-labelledby="confirm-title">
+  <h2 id="confirm-title">Confirm change</h2>
+  <p id="confirm-text"></p>
+  <div class="dialog-actions">
+    <button id="confirm-cancel" type="button" class="btn btn-secondary" autofocus>Cancel</button>
+    <button id="confirm-continue" type="button" class="btn btn-primary">Continue</button>
+  </div>
+</dialog>
+
+<!-- =========================================================================
+     CRUD Modal
+     ========================================================================= -->
+<div id="modal-overlay" class="modal-overlay" role="dialog" aria-modal="true"
+     aria-labelledby="modal-title" hidden>
+  <div class="modal">
+    <header class="modal-header">
+      <h2 id="modal-title" class="modal-title">New Record</h2>
+      <button id="modal-close" type="button" class="modal-close" aria-label="Close dialog">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <form id="record-form" novalidate autocomplete="off">
+      <div class="form-grid">
+
+        <!-- Title -->
+        <div class="form-field span-2">
+          <label class="form-label" for="f-title">
+            Title <span class="required" aria-label="required">*</span>
+          </label>
+          <input type="text" id="f-title" class="form-input"
+                 maxlength="200" placeholder="Competition name"
+                 aria-required="true" />
+          <span id="f-title-err" class="form-error" hidden></span>
+        </div>
+
+        <!-- Source URL -->
+        <div class="form-field span-2">
+          <label class="form-label" for="f-source-url">Official source URL</label>
+          <input type="url" id="f-source-url" class="form-input"
+                 placeholder="https://…" />
+          <span class="form-help">https:// or http:// only. Optional.</span>
+          <span id="f-source-url-err" class="form-error" hidden></span>
+        </div>
+
+        <!-- Prize section -->
+        <div class="form-section-title">Prize / fee</div>
+
+        <div class="form-field">
+          <label class="form-label" for="f-cash-amount">Cash prize amount</label>
+          <input type="number" id="f-cash-amount" class="form-input"
+                 min="0" step="any" placeholder="e.g. 2000" />
+          <span id="f-cash-amount-err" class="form-error" hidden></span>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="f-currency">Currency</label>
+          <input type="text" id="f-currency" class="form-input"
+                 maxlength="10" placeholder="PLN" />
+          <span class="form-help">ISO code or label (PLN, EUR, USD…)</span>
+        </div>
+
+        <div class="form-field span-2">
+          <label class="form-label" for="f-credits-desc">Non-cash / credits description</label>
+          <input type="text" id="f-credits-desc" class="form-input"
+                 maxlength="500" placeholder="e.g. Official selection credit" />
+          <span class="form-help">Describe credits, recognition, or conditional bonuses separately.</span>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="f-fee-status">Entry fee</label>
+          <select id="f-fee-status" class="form-select">
+            <option value="unknown">Unknown</option>
+            <option value="free">Free</option>
+            <option value="paid">Paid</option>
+          </select>
+        </div>
+
+        <!-- Deadline section -->
+        <div class="form-section-title">Deadline &amp; stage</div>
+
+        <div class="form-field span-2">
+          <label class="form-label" for="f-deadline">Deadline</label>
+          <input type="text" id="f-deadline" class="form-input"
+                 placeholder="YYYY-MM-DD or YYYY-MM-DDThh:mm:ss+01:00" />
+          <span class="form-help">
+            Date-only (YYYY-MM-DD) shows UNKNOWN HOUR — no precision assumption.<br>
+            Exact timestamps require a UTC offset (e.g. <code>+01:00</code> or <code>Z</code>).
+            Bare local times without offset are rejected.
+          </span>
+          <span id="f-deadline-err" class="form-error" hidden></span>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="f-stage">Stage</label>
+          <select id="f-stage" class="form-select">
+            <option value="interested">Interested</option>
+            <option value="registered">Registered</option>
+            <option value="preparing">Preparing</option>
+            <option value="submitted">Submitted</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+          <span class="form-help">
+            "Submitted" must be set explicitly. Registration ≠ submission.
+          </span>
+        </div>
+
+        <!-- Checklist section -->
+        <div class="form-section-title">Required materials checklist</div>
+
+        <div class="form-field span-2">
+          <div class="checklist-editor">
+            <div id="checklist-list"></div>
+            <div class="add-checklist-row">
+              <input type="text" id="new-item-input" class="form-input"
+                     maxlength="200" placeholder="Add a required item…"
+                     aria-label="New checklist item" />
+              <button type="button" id="add-item-btn" class="btn btn-secondary btn-sm">
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-section-title">Notes</div>
+
+        <div class="form-field span-2">
+          <label class="form-label" for="f-notes">Notes</label>
+          <textarea id="f-notes" class="form-textarea form-input"
+                    maxlength="2000" placeholder="Personal notes, conditions, links…"
+                    rows="4"></textarea>
+          <span class="form-help">Max 2000 characters.</span>
+        </div>
+
+      </div><!-- .form-grid -->
+    </form>
+
+    <footer class="form-footer">
+      <div class="form-footer-left">
+        <button id="modal-delete-btn" type="button" class="btn btn-danger" hidden
+                aria-label="Delete this record">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6"/><path d="M14 11v6"/>
+            <path d="M9 6V4h6v2"/>
+          </svg>
+          Delete
+        </button>
+      </div>
+      <div class="form-footer-right">
+        <button id="modal-cancel" type="button" class="btn btn-ghost">Cancel</button>
+        <button id="modal-save"   type="button" class="btn btn-primary">Save record</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- =========================================================================
+     Import confirmation dialog
+     ========================================================================= -->
+<div id="import-overlay" class="modal-overlay" role="dialog" aria-modal="true"
+     aria-labelledby="import-title" hidden>
+  <div class="modal" style="max-width:500px;">
+    <header class="modal-header">
+      <h2 id="import-title" class="modal-title">Confirm Import</h2>
+      <button id="import-close" type="button" class="modal-close" aria-label="Close import dialog">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <p id="import-summary" class="import-summary"></p>
+    <p class="form-help mt-sm">
+      Duplicates (same ID or same source URL after normalisation) are skipped automatically.
+      No partial import — all-or-nothing.
+    </p>
+    <div id="import-conflict-list" class="import-conflicts mt-sm" hidden></div>
+
+    <footer class="form-footer">
+      <div class="form-footer-right">
+        <button id="import-cancel"  type="button" class="btn btn-ghost">Cancel</button>
+        <button id="import-confirm" type="button" class="btn btn-primary">Import</button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
